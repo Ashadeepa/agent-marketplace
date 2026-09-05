@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Marketplace</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Agent Marketplace <span class="sub">sample project</span></h1>
+    <div class="controls">
+      <input id="query" type="text" placeholder="Search capabilities… e.g. reconcile invoices" />
+      <select id="tenant">
+        <option value="">No tenant (unauthenticated)</option>
+        <option value="finance">Tenant: finance</option>
+        <option value="support">Tenant: support</option>
+        <option value="platform">Tenant: platform</option>
+        <option value="sre">Tenant: sre</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section id="results" class="results"></section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="closeModal" class="close">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

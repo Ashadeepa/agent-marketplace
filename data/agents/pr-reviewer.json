@@ -1,0 +1,37 @@
+[
+  {
+    "agent_id": "pr-reviewer",
+    "version": "1.0.0",
+    "name": "PR Review Assistant",
+    "description": "Reads pull request diffs and leaves inline comments on style, obvious bugs, and missing tests. Read-only against the repo; comments go through a bot account.",
+    "publisher": {
+      "name": "Dev Platform Team",
+      "team": "platform",
+      "verified": true,
+      "contact": "dev-platform@example.com"
+    },
+    "capabilities": ["review-code", "comment-on-pr", "flag-missing-tests"],
+    "tags": ["engineering", "code-review", "developer-tools"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "pr-reviewer/prompt@1",
+    "prompt_fingerprint": "pf_5590aa",
+    "tools": [
+      {"name": "github_read", "permission": "read", "scope": "repo:*"},
+      {"name": "github_comment", "permission": "write", "scope": "repo:*:pull-requests"}
+    ],
+    "policies": ["no-external-network", "no-secrets-in-output"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "public", "tenants": []},
+    "review": {
+      "status": "approved",
+      "reviewed_by": "agent-governance-board",
+      "reviewed_at": "2026-02-14",
+      "evals": {"accuracy": 0.9, "safety": "pass", "last_run": "2026-07-20"},
+      "notes": "Widely used, re-evaluated quarterly."
+    },
+    "changelog": "Initial public release."
+  }
+]

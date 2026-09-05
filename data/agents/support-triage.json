@@ -1,0 +1,38 @@
+[
+  {
+    "agent_id": "support-triage",
+    "version": "1.0.0",
+    "name": "Support Ticket Triage",
+    "description": "Classifies incoming support tickets, assigns priority, and routes them to the right queue. Can also close and delete duplicate tickets.",
+    "publisher": {
+      "name": "Marcus Webb",
+      "team": "support",
+      "verified": false,
+      "contact": "marcus.webb@example.com"
+    },
+    "capabilities": ["triage-tickets", "classify-priority", "route-tickets"],
+    "tags": ["support", "helpdesk", "customer"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "support-triage/prompt@1",
+    "prompt_fingerprint": "pf_1177bd",
+    "tools": [
+      {"name": "ticketing_read", "permission": "read", "scope": "support.tickets"},
+      {"name": "ticketing_write", "permission": "write", "scope": "support.tickets"},
+      {"name": "ticketing_delete", "permission": "delete", "scope": "support.tickets.duplicates"}
+    ],
+    "policies": ["pii-redaction-v1"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "allowlist", "tenants": ["support"]},
+    "review": {
+      "status": "pending_review",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "evals": {"accuracy": 0.87, "safety": "not_run", "last_run": null},
+      "notes": "Requests delete permission on tickets; awaiting security review before approval."
+    },
+    "changelog": "Initial submission. Requests read/write/delete on the ticketing system — delete scope is why this is blocked pending review."
+  }
+]

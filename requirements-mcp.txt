@@ -1,0 +1,3 @@
+# Optional — only needed to run this project as an MCP server for Claude.
+# pip install -r requirements.txt -r requirements-mcp.txt
+mcp>=1.0

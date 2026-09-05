@@ -1,0 +1,37 @@
+[
+  {
+    "agent_id": "incident-summarizer",
+    "version": "1.0.0",
+    "name": "Incident Summarizer",
+    "description": "Pulls together alert timelines, on-call chat logs, and monitoring data into a draft incident summary and timeline.",
+    "publisher": {
+      "name": "SRE Team",
+      "team": "sre",
+      "verified": true,
+      "contact": "sre-oncall@example.com"
+    },
+    "capabilities": ["summarize-incident", "build-timeline", "draft-postmortem"],
+    "tags": ["sre", "incident-response", "reliability"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "incident-summarizer/prompt@1",
+    "prompt_fingerprint": "pf_c40912",
+    "tools": [
+      {"name": "monitoring_read", "permission": "read", "scope": "observability.*"},
+      {"name": "chatlog_read", "permission": "read", "scope": "oncall.channels"}
+    ],
+    "policies": ["pii-redaction-v2", "no-external-network"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "denylist", "tenants": ["support"]},
+    "review": {
+      "status": "approved",
+      "reviewed_by": "agent-governance-board",
+      "reviewed_at": "2026-05-11",
+      "evals": {"accuracy": 0.89, "safety": "pass", "last_run": "2026-05-11"},
+      "notes": "Visible to every tenant except support, which has its own incident tooling."
+    },
+    "changelog": "Initial release."
+  }
+]

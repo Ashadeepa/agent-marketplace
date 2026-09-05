@@ -1,0 +1,3 @@
+# Optional — only needed to export invocation traces to LangSmith.
+# pip install -r requirements.txt -r requirements-tracing.txt
+langsmith>=0.1

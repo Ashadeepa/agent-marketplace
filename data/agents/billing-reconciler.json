@@ -1,0 +1,109 @@
+[
+  {
+    "agent_id": "billing-reconciler",
+    "version": "1.0.0",
+    "name": "Billing Reconciler",
+    "description": "Matches ERP invoice records against payment ledger entries and flags mismatches for finance review.",
+    "publisher": {
+      "name": "Priya Nair",
+      "team": "finance",
+      "verified": true,
+      "contact": "priya.nair@example.com"
+    },
+    "capabilities": ["reconcile-invoices", "flag-mismatches", "generate-report"],
+    "tags": ["finance", "billing", "erp"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-3-5-sonnet"},
+    "prompt_template_id": "billing-reconciler/prompt@1",
+    "prompt_fingerprint": "pf_8a21f0",
+    "tools": [
+      {"name": "erp_read", "permission": "read", "scope": "finance.invoices"},
+      {"name": "ledger_read", "permission": "read", "scope": "finance.payments"}
+    ],
+    "policies": ["pii-redaction-v1"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "allowlist", "tenants": ["finance", "platform"]},
+    "review": {
+      "status": "approved",
+      "reviewed_by": "agent-governance-board",
+      "reviewed_at": "2026-03-01",
+      "evals": {"accuracy": 0.91, "safety": "pass", "last_run": "2026-03-01"},
+      "notes": "Read-only scope, low risk."
+    },
+    "changelog": "Initial release: read-only reconciliation and mismatch report."
+  },
+  {
+    "agent_id": "billing-reconciler",
+    "version": "2.0.0",
+    "name": "Billing Reconciler",
+    "description": "Matches ERP invoice records against payment ledger entries and flags mismatches for finance review.",
+    "publisher": {
+      "name": "Priya Nair",
+      "team": "finance",
+      "verified": true,
+      "contact": "priya.nair@example.com"
+    },
+    "capabilities": ["reconcile-invoices", "flag-mismatches", "generate-report"],
+    "tags": ["finance", "billing", "erp"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "billing-reconciler/prompt@2",
+    "prompt_fingerprint": "pf_3c9de1",
+    "tools": [
+      {"name": "erp_read", "permission": "read", "scope": "finance.invoices"},
+      {"name": "ledger_read", "permission": "read", "scope": "finance.payments"},
+      {"name": "slack_post", "permission": "write", "scope": "#finance-alerts"}
+    ],
+    "policies": ["pii-redaction-v1"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "allowlist", "tenants": ["finance", "platform"]},
+    "review": {
+      "status": "pending_review",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "evals": {"accuracy": 0.93, "safety": "pass", "last_run": "2026-06-10"},
+      "notes": "Model bumped and Slack posting added — awaiting governance re-approval before rollout."
+    },
+    "changelog": "Same API contract (v1) as 2.0.0's predecessor. Underneath: swapped model, rewrote the prompt, and added a write-scoped Slack tool to auto-post mismatch alerts. This is exactly the case the talk calls out: contract unchanged, behavior and permissions changed."
+  },
+  {
+    "agent_id": "billing-reconciler",
+    "version": "2.1.0",
+    "name": "Billing Reconciler",
+    "description": "Matches ERP invoice records against payment ledger entries, flags mismatches, and posts alerts to finance.",
+    "publisher": {
+      "name": "Priya Nair",
+      "team": "finance",
+      "verified": true,
+      "contact": "priya.nair@example.com"
+    },
+    "capabilities": ["reconcile-invoices", "flag-mismatches", "generate-report", "flag-anomalies"],
+    "tags": ["finance", "billing", "erp"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "billing-reconciler/prompt@2",
+    "prompt_fingerprint": "pf_3c9de1",
+    "tools": [
+      {"name": "erp_read", "permission": "read", "scope": "finance.invoices"},
+      {"name": "ledger_read", "permission": "read", "scope": "finance.payments"},
+      {"name": "slack_post", "permission": "write", "scope": "#finance-alerts"}
+    ],
+    "policies": ["pii-redaction-v2"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "allowlist", "tenants": ["finance", "platform"]},
+    "review": {
+      "status": "approved",
+      "reviewed_by": "agent-governance-board",
+      "reviewed_at": "2026-07-02",
+      "evals": {"accuracy": 0.95, "safety": "pass", "last_run": "2026-07-02"},
+      "notes": "Governance board approved the 2.0.0 changes after review; PII redaction policy upgraded to v2 as a condition of approval."
+    },
+    "changelog": "Governance-approved version of the 2.0.0 changes, with PII redaction upgraded to v2 and anomaly-flagging capability added."
+  }
+]
