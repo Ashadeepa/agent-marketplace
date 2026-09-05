@@ -2,11 +2,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()  # must run before app.tracing is imported below, which reads env vars at import time
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.governance import evaluate_install, trust_badges
+from app.otel import otel_status, setup as setup_otel
 from app.registry import registry
 from app.search import score_agents
 from app.tenancy import is_visible_to_tenant
@@ -16,6 +21,7 @@ from app.versioning import compute_behavior_hash, diff_versions
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 app = FastAPI(title="Agent Marketplace (sample)", version="0.1.0")
+setup_otel(app)
 
 
 @app.on_event("startup")
@@ -214,6 +220,12 @@ def get_tracing_status():
     """Whether this run is exporting traces to LangSmith, and why/why not — useful for checking
     the integration without needing to open the LangSmith UI."""
     return tracing_status()
+
+
+@app.get("/admin/otel-status")
+def get_otel_status():
+    """Whether this run is exporting HTTP-layer spans via OpenTelemetry, and where to."""
+    return otel_status()
 
 
 app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="static")
