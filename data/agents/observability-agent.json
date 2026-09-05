@@ -1,0 +1,38 @@
+[
+  {
+    "agent_id": "observability-agent",
+    "version": "1.0.0",
+    "name": "Observability Agent",
+    "description": "Answers questions about system health by reading metrics, logs, and traces, and flags anomalies (latency spikes, error-rate jumps, failed traces) with likely root cause.",
+    "publisher": {
+      "name": "SRE Team",
+      "team": "sre",
+      "verified": true,
+      "contact": "sre-oncall@example.com"
+    },
+    "capabilities": ["query-metrics", "search-logs", "inspect-traces", "detect-anomalies"],
+    "tags": ["observability", "sre", "monitoring", "reliability"],
+    "api_contract_version": "v1",
+    "input_schema_ref": "v1/generic-task",
+    "output_schema_ref": "v1/generic-result",
+    "model": {"provider": "anthropic", "name": "claude-4-5-sonnet"},
+    "prompt_template_id": "observability-agent/prompt@1",
+    "prompt_fingerprint": "pf_ob91a2",
+    "tools": [
+      {"name": "metrics_read", "permission": "read", "scope": "observability.metrics"},
+      {"name": "logs_read", "permission": "read", "scope": "observability.logs"},
+      {"name": "traces_read", "permission": "read", "scope": "observability.traces"}
+    ],
+    "policies": ["pii-redaction-v2", "no-external-network"],
+    "dependencies": [],
+    "tenant_visibility": {"mode": "public", "tenants": []},
+    "review": {
+      "status": "approved",
+      "reviewed_by": "agent-governance-board",
+      "reviewed_at": "2026-09-05",
+      "evals": {"accuracy": 0.91, "safety": "pass", "last_run": "2026-09-05"},
+      "notes": "Read-only against metrics/logs/traces backends; no write or external-network access."
+    },
+    "changelog": "Initial release."
+  }
+]
