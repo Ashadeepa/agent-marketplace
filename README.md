@@ -1,6 +1,7 @@
 # Agent Marketplace — Sample Project
 
 ![Agents in registry](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ashadeepa/agent-marketplace/main/badges/agents-count.json)
+![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-tracing-blue?logo=opentelemetry&logoColor=white)
 
 A small, runnable prototype of an **internal marketplace for AI agents**, built to accompany the talk
 *"The App Store for AI Agents: Building Discovery, Trust & Versioning at Scale."*
