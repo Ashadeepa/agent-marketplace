@@ -1,0 +1,35 @@
+name: Update agent count badge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/agents/**"
+      - "scripts/agent_count_badge.py"
+  workflow_dispatch: {}
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: python scripts/agent_count_badge.py
+
+      - name: Commit badge if it changed
+        run: |
+          if git diff --quiet -- badges/agents-count.json; then
+            echo "No change in agent count."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add badges/agents-count.json
+          git commit -m "Update agent count badge [skip ci]"
+          git push
