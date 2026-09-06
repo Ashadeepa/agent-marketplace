@@ -135,24 +135,3 @@ This runs in-process against the same `app/registry.py`, `app/search.py`, `app/g
 `app/tenancy.py`, and `app/versioning.py` modules the FastAPI app uses — it's a second front door
 on the same marketplace, not a separate implementation, so anything you change in `data/agents/`
 shows up identically through the API, the browser UI, and Claude.
-
-## What's deliberately simplified (and how to extend it)
-
-This is a talk companion, not a production system. The obvious next steps if you wanted to take it further:
-
-- **Discovery**: `app/search.py` uses a small hand-rolled TF-IDF + capability-tag boost so the demo has
-  zero external dependencies. Swap `score_agents()` for real embeddings (e.g. an embedding model over
-  `name + description + capabilities`) and an ANN index (pgvector, FAISS) once you have enough agents
-  that lexical overlap stops being good enough.
-- **Storage**: the registry is in-memory, seeded from JSON files on disk. A real system needs a durable
-  store (manifests + version history), plus an audit log of every install/invoke decision — governance
-  without an audit trail isn't governance.
-- **Behavioral versioning**: `behavior_hash` here is a SHA-256 over `(prompt_template, model, tools,
-  policies)`. In production you'd likely add eval-result deltas and a human-in-the-loop diff view, since
-  a changed hash tells you *that* behavior may have changed, not *how much it matters*.
-- **Trust & governance**: publisher verification and eval scores are static fields on the manifest here.
-  A real marketplace would re-run evals on every version bump and block promotion to `approved` on
-  regression, not just take the publisher's word for it.
-- **Tenant scoping**: visibility is a simple allowlist/denylist/public enum per manifest. At scale this
-  usually becomes a policy engine (OPA/Cedar-style) so visibility rules can reference org hierarchy,
-  data residency, and license tier instead of being hand-maintained lists.
