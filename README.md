@@ -3,11 +3,28 @@
 ![Agents in registry](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ashadeepa/agent-marketplace/main/badges/agents-count.json)
 ![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-tracing-blue?logo=opentelemetry&logoColor=white)
 
-A small, runnable prototype of an **internal marketplace for AI agents**, built to accompany the talk
-*"The App Store for AI Agents: Building Discovery, Trust & Versioning at Scale."*
+## What is this?
 
-It is deliberately minimal (no external services, no API keys, no ML downloads) so it runs anywhere in
-under a minute, while still making the five hard problems from the talk concrete and inspectable:
+Imagine an app store, but instead of downloading mobile apps, a company's teams are "installing"
+AI agents — bots that can read data, send messages, or take other actions on their behalf. This
+project is a small working model of what that app store needs to actually be safe and trustworthy
+at a company:
+
+- **You can search for an agent by what it does** ("something that reconciles invoices"), not just
+  by its name.
+- **Every agent comes with a label** listing exactly what it's allowed to touch (read-only? can it
+  send messages? can it delete things?) — before anyone installs it.
+- **Risky agents need approval** before they can be installed, the same way an app store reviews
+  apps before publishing them.
+- **Not every team can see every agent** — some are private to the team that built them, some are
+  shared company-wide.
+- **There's a record of what actually ran** — not just what the agent's paperwork says it does.
+- **New versions of an agent get checked for silent behavior changes**, so upgrading one doesn't
+  quietly change what it does without anyone noticing.
+
+It's a sample/teaching project (built to accompany a talk on this topic), deliberately kept small —
+no external services or API keys required to run it — but each piece above is real, working code you
+can read, run, and extend.
 
 | Pillar | Where it lives |
 |---|---|
